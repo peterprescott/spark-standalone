@@ -17,15 +17,25 @@ define shared_workspace
 object jupyterlab {
 install pyspark
 install jupyterlab
+expose port 8888
+run Jupyter Lab
 }
 object spark_base {
-install spark
+specify spark version
+specify hadoop version
+download and install spark
+set environment variables
 }
 object spark_master {
-expose master port
+expose master port 7077
+expose master web_ui port 8080
+run Spark Master
+record master logs
 }
 object spark_worker {
-expose worker port
+expose worker port 8081
+run Spark Worker
+record worker logs
 }
 
 scratch <|-- debian : (makes explicit)
