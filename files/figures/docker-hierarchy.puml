@@ -1,0 +1,40 @@
+@startuml
+title: Docker Image Hierarchy
+
+object scratch #bbb {
+explicitly empty image
+}
+object debian #fff {
+install linux OS
+}
+object openjdk #fff {
+install java
+}
+object cluster_base {
+install python3
+define shared_workspace
+}
+object jupyterlab {
+install pyspark
+install jupyterlab
+}
+object spark_base {
+install spark
+}
+object spark_master {
+expose master port
+}
+object spark_worker {
+expose worker port
+}
+
+scratch <|-- debian : (makes explicit)
+debian <|- openjdk : built from
+openjdk <|-- cluster_base : built from
+cluster_base <|- spark_base : built from
+cluster_base <|-- jupyterlab : built from
+spark_base <|-- spark_master : built from
+spark_base <|-- spark_worker : built from
+
+
+@enduml
