@@ -1,0 +1,73 @@
+@startuml
+
+title: Data Flow Model
+
+rectangle "covid19.csv" as csv
+(Load CSV into DataFrame)  as load
+node "DataFrame (Spark 2.0)" as df
+node "RDD (Spark 1.0)" as rdd
+(Simple Conversion if Necessary) as convert
+
+csv --> load
+load --> df
+convert .up.> rdd
+convert .right.> df
+
+cloud "Is Schema correct?" as check
+(Define Schema explicitly) as schema
+cloud "Are there null values?" as null
+(Filter null values) as filter
+
+df --> check
+
+check -right-> schema : "No"
+schema -left-> load
+check -down->null : "Yes"
+null -right-> filter : "Yes"
+
+(Group by 'location') as group
+(Aggregate max 'total_deaths') as agg
+(Find highest 'total_cases') as max
+(Find lowest 'total_cases') as min
+
+df ..> null
+null ..> group
+group ..> agg
+
+null --> group : "No"
+filter --> group
+group --> agg
+group -up-> max
+group -left-> min
+
+
+cloud "Highest 'total_deaths' for Sweden?" as sweden
+
+agg ..> sweden
+agg --> sweden
+
+rectangle "986" as wrong
+note right
+Incorrect -- this is the answer
+you get if 'total_deaths' is treated 
+as a String rather than Integer
+end note
+
+sweden ..> wrong
+wrong ..> schema 
+
+rectangle "5918" as correct
+note right
+Correct!
+end note
+
+sweden --> correct
+
+rectangle "United States (8779653)" as usa
+rectangle "Montserrat (13)" as montserrat
+
+max --> usa
+min --> montserrat
+
+
+@enduml
