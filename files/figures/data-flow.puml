@@ -1,6 +1,6 @@
 @startuml
 
-title: Data Flow Model
+footer: **Figure 3: Data Flow Model**
 
 rectangle "covid19.csv" as csv
 (Load CSV into DataFrame)  as load

@@ -2,48 +2,48 @@
 
 skinparam linetype polyline
 
-rectangle "Standalone Configuration" {
+footer: **Figure 2: Standalone Configuration**
     
-    frame "Docker Deployment" {
-          [jupyterlab]
-          
-          package "Spark Cluster" {
-              [spark-master]
-              [spark-worker-1]
-              [spark-worker-2]
-              }
-        
-          [spark-master] -up-> 7077 : 7077
-          [jupyterlab] ..left.. 7077: SparkSession
-    }
-    
-    [jupyterlab]
-    [spark-master]
-    [spark-worker-1]
-    [spark-worker-2]
-    [spark-master] ..  [spark-worker-1]
-    [spark-master] .. [spark-worker-2]
-    
-    database shared-workspace {
-      [mounted-folder] as volume_1
-    }
-    
-    [jupyterlab] -up-> 8888 : 8888
-    [spark-master] -up-> 8080 : 8080
-    [spark-worker-1] -up-> 8081 : 8081
-    [spark-worker-2]  -up-> 8082 : 8081
-    
-    [jupyterlab] -[#grey]-> volume_1 
-    [spark-master] -[#grey]-> volume_1
-    [spark-worker-1] -[#grey]-> volume_1
-    [spark-worker-2] -[#grey]-> volume_1
-    
-    [web-browser] .. 8888
-    [web-browser] .. 8080
-    [web-browser] .. 8081
-    [web-browser] .. 8082
+frame "Docker Deployment" {
+  [jupyterlab]
+  
+  package "Spark Cluster" {
+      [spark-master]
+      [spark-worker-1]
+      [spark-worker-2]
+      }
 
+  [spark-master] -up-> 7077 : 7077
+  [jupyterlab] ..left.. 7077: SparkSession
 }
+
+[jupyterlab]
+[spark-master]
+[spark-worker-1]
+[spark-worker-2]
+[spark-master] ..  [spark-worker-1]
+[spark-master] .. [spark-worker-2]
+
+database shared-workspace {
+[mounted-folder] as volume_1
+}
+
+[jupyterlab] -up-> 8888 : 8888
+[spark-master] -up-> 8080 : 8080
+[spark-worker-1] -up-> 8081 : 8081
+[spark-worker-2]  -up-> 8082 : 8081
+
+[jupyterlab] -[#grey]-> volume_1 
+[spark-master] -[#grey]-> volume_1
+[spark-worker-1] -[#grey]-> volume_1
+[spark-worker-2] -[#grey]-> volume_1
+
+[web-browser] .. 8888
+[web-browser] .. 8080
+[web-browser] .. 8081
+[web-browser] .. 8082
+
+
 
 @enduml
 
