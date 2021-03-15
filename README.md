@@ -4,7 +4,7 @@ This is my project file for Assignment 1 of [COMP529](https://intranet.csc.liv.a
 
 The cluster configuration is done using Docker, so setting it up on your own machine should be as simple as this:
 ```
-git clone https://github.com/pi-prescott/spark-standalone
+git clone https://github.com/peterprescott/spark-standalone
 cd spark-standalone
 docker-compose up
 ```
